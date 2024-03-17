@@ -42,7 +42,7 @@ After setting up the project, you can access the shopping cart application by op
 
 - **Product List**: Displays a list of products fetched from a simulated database.
 - **Shopping Cart**: Allows users to add and remove items from the shopping cart.
-- **Checkout**: Calculates the total cost of items in the cart and allows users to proceed to checkout.
+- **Checkout**: Calculates the total cost of items in the cart and will allows users to proceed to checkout in the future.
 - **Restocking**: Fetches data from an API endpoint to restock products in the inventory.
 
 ## License
