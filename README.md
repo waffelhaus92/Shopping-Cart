@@ -13,7 +13,7 @@ This repository contains code for a simple shopping cart application. The applic
 
 ## Overview
 
-The code consists of React components that display a list of products, manage a shopping cart, and handle the checkout process. It also includes functionality to fetch data from an API endpoint to restock products.
+The code consists of React components that display a list of products, manage a shopping cart, and shows a checkout button. It also includes functionality to fetch data from an API endpoint to restock products.
 
 ## Setup
 
