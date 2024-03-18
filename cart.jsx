@@ -4,7 +4,7 @@ const products = [
   { name: "Oranges:", country: "Spain", cost: 4, instock: 3 },
   { name: "Beans__:", country: "USA", cost: 2, instock: 5 },
   { name: "Cabbage:", country: "USA", cost: 1, instock: 8 },
-];
+]; 
 //=========Cart=============
 const Cart = (props) => {
   const { Card, Accordion, Button } = ReactBootstrap;
@@ -13,7 +13,7 @@ const Cart = (props) => {
 
   return <Accordion defaultActiveKey="0">{list}</Accordion>;
 };
-
+//Hook for Fethching Data
 const useDataApi = (initialUrl, initialData) => {
   const { useState, useEffect, useReducer } = React;
   const [url, setUrl] = useState(initialUrl);
@@ -48,6 +48,7 @@ const useDataApi = (initialUrl, initialData) => {
   }, [url]);
   return [state, setUrl];
 };
+//Reduces data after fetching. 
 const dataFetchReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_INIT":
@@ -73,7 +74,7 @@ const dataFetchReducer = (state, action) => {
       throw new Error();
   }
 };
-
+//Products component. 
 const Products = (props) => {
   const [items, setItems] = React.useState(products);
   const [cart, setCart] = React.useState([]);
@@ -98,32 +99,23 @@ const Products = (props) => {
     }
   );
   console.log(`Rendering Products ${JSON.stringify(data)}`);
-  // Fetch Data
+  // Function to add an item to the cart.
   const addToCart = (e) => {
     let name = e.target.name;
     let item = items.filter((item) => item.name == name);
-    if (item[0].instock == 0) return;
-    item[0].instock = item[0].instock - 1;
     console.log(`add to Cart ${JSON.stringify(item)}`);
     setCart([...cart, ...item]);
-    doFetch(query)
+    doFetch(query);
   };
-  
-  const deleteCartItem = (delIndex) => {
-    // this is the index in the cart not in the Product List
-
-    let newCart = cart.filter((item, i) => delIndex != i);
-    let target = cart.filter((item, index) => delIndex == index);
-    let newItems = items.map((item, index) => {
-      if (item.name == target[0].name) item.instock = item.instock + 1;
-      return item;
-    });
+  //Function to delete an item from the cart.
+  const deleteCartItem = (index) => {
+    let newCart = cart.filter((item, i) => index != i);
     setCart(newCart);
-    setItems(newItems);
   };
   const photos = ["apple.png", "orange.png", "beans.png", "cabbage.png"];
-
+  //Makes the list  of products.
   let list = items.map((item, index) => {
+    //Can be used to have random or specific photos. 
     //let n = index + 1049;
     //let url = "https://picsum.photos/id/" + n + "/50/50";
 
@@ -137,6 +129,7 @@ const Products = (props) => {
       </li>
     );
   });
+  //List of products in your cart. 
   let cartList = cart.map((item, index) => {
     return (
       <Accordion.Item key={1+index} eventkey={1 + index}>
@@ -150,7 +143,7 @@ const Products = (props) => {
     </Accordion.Item>
     );
   });
-
+  //List of products for checkout. 
   let finalList = () => {
     let total = checkOut();
     let final = cart.map((item, index) => {
@@ -162,7 +155,7 @@ const Products = (props) => {
     });
     return { final, total };
   };
-
+  //Will allow the checking out in the future. Calculates price of items in cart. 
   const checkOut = () => {
     let costs = cart.map((item) => item.cost);
     const reducer = (accum, current) => accum + current;
@@ -170,14 +163,16 @@ const Products = (props) => {
     console.log(`total updated to ${newTotal}`);
     return newTotal;
   };
-  // TODO: implement the restockProducts function
+  //Clears cart list, restocks items. 
   const restockProducts = (url) => {
     doFetch(url);
+    console.log(doFetch)
     let newItems = products.map((item) => {
       let { name, country, cost, instock } = item;
       return { name, country, cost, instock };
     });
-    setItems([...items, ...newItems]);
+    setItems([...newItems]);
+    setCart([]);
   };
 
   return (
