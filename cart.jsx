@@ -4,7 +4,7 @@ const products = [
   { name: "Oranges:", country: "Spain", cost: 4, instock: 3 },
   { name: "Beans__:", country: "USA", cost: 2, instock: 5 },
   { name: "Cabbage:", country: "USA", cost: 1, instock: 8 },
-]; 
+];
 //=========Cart=============
 const Cart = (props) => {
   const { Card, Accordion, Button } = ReactBootstrap;
@@ -48,7 +48,7 @@ const useDataApi = (initialUrl, initialData) => {
   }, [url]);
   return [state, setUrl];
 };
-//Reduces data after fetching. 
+//Reduces data after fetching.
 const dataFetchReducer = (state, action) => {
   switch (action.type) {
     case "FETCH_INIT":
@@ -74,21 +74,13 @@ const dataFetchReducer = (state, action) => {
       throw new Error();
   }
 };
-//Products component. 
+//Products component.
 const Products = (props) => {
   const [items, setItems] = React.useState(products);
   const [cart, setCart] = React.useState([]);
   const [total, setTotal] = React.useState(0);
-  const {
-    Card,
-    Accordion,
-    Button,
-    Container,
-    Row,
-    Col,
-    Image,
-    Input,
-  } = ReactBootstrap;
+  const { Card, Accordion, Button, Container, Row, Col, Image, Input } =
+    ReactBootstrap;
   //  Fetch Data
   const { Fragment, useState, useEffect, useReducer } = React;
   const [query, setQuery] = useState("http://localhost:1337/api/products");
@@ -115,7 +107,7 @@ const Products = (props) => {
   const photos = ["apple.png", "orange.png", "beans.png", "cabbage.png"];
   //Makes the list  of products.
   let list = items.map((item, index) => {
-    //Can be used to have random or specific photos. 
+    //Can be used to have random or specific photos.
     //let n = index + 1049;
     //let url = "https://picsum.photos/id/" + n + "/50/50";
 
@@ -129,21 +121,21 @@ const Products = (props) => {
       </li>
     );
   });
-  //List of products in your cart. 
+  //List of products in your cart.
   let cartList = cart.map((item, index) => {
     return (
-      <Accordion.Item key={1+index} eventkey={1 + index}>
-      <Accordion.Header>
-        {item.name}
-      </Accordion.Header>
-      <Accordion.Body onClick={() => deleteCartItem(index)}
-        eventkey={1 + index}>
-        $ {item.cost} from {item.country}
-      </Accordion.Body>
-    </Accordion.Item>
+      <Accordion.Item key={1 + index} eventkey={1 + index}>
+        <Accordion.Header>{item.name}</Accordion.Header>
+        <Accordion.Body
+          onClick={() => deleteCartItem(index)}
+          eventkey={1 + index}
+        >
+          $ {item.cost} from {item.country}
+        </Accordion.Body>
+      </Accordion.Item>
     );
   });
-  //List of products for checkout. 
+  //List of products for checkout.
   let finalList = () => {
     let total = checkOut();
     let final = cart.map((item, index) => {
@@ -155,7 +147,7 @@ const Products = (props) => {
     });
     return { final, total };
   };
-  //Will allow the checking out in the future. Calculates price of items in cart. 
+  //Will allow the checking out in the future. Calculates price of items in cart.
   const checkOut = () => {
     let costs = cart.map((item) => item.cost);
     const reducer = (accum, current) => accum + current;
@@ -163,10 +155,10 @@ const Products = (props) => {
     console.log(`total updated to ${newTotal}`);
     return newTotal;
   };
-  //Clears cart list, restocks items. 
+  //Clears cart list, restocks items.
   const restockProducts = (url) => {
     doFetch(url);
-    console.log(doFetch)
+    console.log(doFetch);
     let newItems = products.map((item) => {
       let { name, country, cost, instock } = item;
       return { name, country, cost, instock };
